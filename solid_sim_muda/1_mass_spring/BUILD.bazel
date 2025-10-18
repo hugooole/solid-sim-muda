@@ -1,0 +1,28 @@
+load("@rules_cuda//cuda:defs.bzl", "cuda_binary")
+
+cuda_binary(
+    name = "mass_spring_main",
+    srcs = glob([
+        "*.cu",
+        "*.cpp",
+    ]),
+    hdrs = glob(["*.h"]),
+    copts = [
+        "--std=c++20",
+        "--extended-lambda",
+        "--expt-relaxed-constexpr",
+    ],
+    host_linkopts = [
+        "-lsfml-graphics",
+        "-lsfml-window",
+        "-lsfml-system",
+    ],
+    rdc = True,
+    deps = [
+        "@cuda//:cublas",
+        "@cuda//:cusolver",
+        "@cuda//:cusparse",
+        "@eigen",
+        "@hugooole_muda//:muda",
+    ],
+)
